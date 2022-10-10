@@ -43,6 +43,11 @@
   :group 'denote-citar
   :type '(repeat string))
 
+(defcustom denote-citar-directory nil
+  "Directory where to store citar notes. If nil `denote-directory' will be used."
+  :group 'denote-citar
+  :type 'directory)
+
 (defconst denote-citar-retrieve--ref-front-matter-key-regexp
   "^\\(?:#\\+\\)?\\(?:reference\\)\\s-*[:=]"
   "Regular expression for reference key.")
@@ -64,7 +69,9 @@
     (denote
      ;; Replace underscores in citation key
      (replace-regexp-in-string "_" "-" key)
-     (denote-citar--keywords-prompt))
+     (denote-citar--keywords-prompt)
+     nil
+     denote-directory)
     ;; The `denote-last-buffer' is the one we just created with `denote'.
     (with-current-buffer (get-buffer denote-last-buffer)
       (save-excursion
